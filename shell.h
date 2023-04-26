@@ -14,9 +14,12 @@
 #include <string.h>
 #include <sys/types.h>
 
+#define PIPE 40
 
-#define PIPE 1024
 void cue(char **ar , char **ev);
 int main(int ac, char **ar, char **ev);
+int path(char *cx);
+char **_strtok(char *cx);
+void _fork(char **cat, char *envp[]);
 #endif
 

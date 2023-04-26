@@ -1,5 +1,5 @@
 #include "shell.h"
-/***
+/**
  * strtok - breaks  a string into sequence of tokens
  * @ar : argument vector 
  * @ev : environment pointer
@@ -7,12 +7,14 @@
  */
 void cue(char **ar, char **ev)
 {
+	char *line;
 	ssize_t x;
 	size_t f = 0;
 	int i, h;
-	char *argv[] = {PIPE 1024, NULL};
+	char *argv[PIPE, NULL];
 	int status;
 	pid_t cdir;
+
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
@@ -52,5 +54,4 @@ void cue(char **ar, char **ev)
 	}
 	else
 		wait(&status);
-}
-"cue.c" 48L, 687C                               
+}	

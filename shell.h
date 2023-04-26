@@ -18,8 +18,5 @@
 
 void cue(char **ar , char **ev);
 int main(int ac, char **ar, char **ev);
-int path(char *cx);
-char **_strtok(char *cx);
-void _fork(char **cat, char *envp[]);
 #endif
 

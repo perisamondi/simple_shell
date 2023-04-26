@@ -14,8 +14,8 @@ void cue(char **ar, char **ev)
 	char *line = NULL;
 	ssize_t x;
 	size_t f = 0;
-	int i;
-	char *argv[] = {NULL, NULL};
+	int i, h;
+	char *argv[PIPE];
 	int status;
 	pid_t cdir;
 
@@ -38,7 +38,13 @@ void cue(char **ar, char **ev)
 			i++;
 		}
 	}
-	argv[0] = line;
+	h = 0;
+	argv[0] = strtok(line, " ");
+	while (argv[h] != NULL)
+	{
+		h++;
+		argv[h] = strtok(NULL, " ");
+	}
 	cdir = fork();
 	if (cdir == -1)
 		{

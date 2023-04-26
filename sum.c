@@ -2,8 +2,6 @@
 
 /**
  * add -  sums two int variables
- * @x: varible
- * @y: variable
  * @z; sum of x + y
  * Return: 0 on sucess
  */

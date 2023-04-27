@@ -14,7 +14,9 @@
 #include <string.h>
 #include <sys/types.h>
 
-#define PIPE 10
+#define PIPE 40
 
 void cue(char **ar , char **ev);
+int path(char *cx);
+char *file(char *cx);
 #endif

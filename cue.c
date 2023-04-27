@@ -9,19 +9,18 @@
 
 void cue(char **ar, char **ev)
 {
-	char *line = NULL;
+	char **line;
         ssize_t x;
-        size_t f = 0;
-        int n = 0;
-	int h;
+        size_t f;
+        int n, h;
         char *argv[PIPE];
         int qstatus;
-	pid_t cdir;
+        pid_t cdir;
 
         while (1)
         {
 		if (isatty(STDIN_FILENO))
-		printf("thisisc$ ");
+		printf("thisisc$");
 
                 x = getline(&line, &f, stdin);
                         if (x == -1)
@@ -29,19 +28,20 @@ void cue(char **ar, char **ev)
                                 free(line);
                                 exit(EXIT_FAILURE);
                         }
+			n = 0;
 			while (line[n])
 			{
+
 				if (line[n] == '\n')
 					line[n] = 0;
 				n++;
 			}
-			h = 0 ;
-		argv[0] =  strtok(line, " ");
-		while (argv[h] != NULL)
-		{
-			h++;
-			argv[h] = strtok(NULL, " ");
-		}
+		h = 0;
+        	argv[0] = strtok(line, " ");
+			while (argv[h] != NULL)
+			{
+				argv[++h] = strtok(NULL, " ");
+			}
 		cdir = fork();
 		if (cdir == -1)
 		{
@@ -50,10 +50,11 @@ void cue(char **ar, char **ev)
 		}
 		if (cdir == 0)
 		{
-			if (execve(argv[0], argv, ev) == -1)
+			if (execve(argv[h], argv, ev) == -1)
 			printf("%s:No such file or directory\n", ar[0]);
 			else
 				wait(&qstatus);
 		}
 	}
+	return;
 }

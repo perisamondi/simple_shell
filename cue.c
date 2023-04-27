@@ -13,13 +13,15 @@ void cue(char **ar, char **ev)
         ssize_t x;
         size_t f = 0;
         int n = 0;
-        char *argv[] = {NULL, NULL};
+	int h;
+        char *argv[PIPE];
         int qstatus;
 	pid_t cdir;
 
         while (1)
         {
-		printf("thisisc$");
+		if (isatty(STDIN_FILENO))
+		printf("thisisc$ ");
 
                 x = getline(&line, &f, stdin);
                         if (x == -1)
@@ -33,7 +35,13 @@ void cue(char **ar, char **ev)
 					line[n] = 0;
 				n++;
 			}
-		argv[0] = line;
+			h = 0 ;
+		argv[0] =  strtok(line, " ");
+		while (argv[h] != NULL)
+		{
+			h++;
+			argv[h] = strtok(NULL, " ");
+		}
 		cdir = fork();
 		if (cdir == -1)
 		{

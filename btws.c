@@ -4,7 +4,7 @@
  * expand_variables - ..
  * @data: pointer pointing to the program's data
  */
-void expand_variables(data_of_program *data)
+void expand_variables(d_o_p *data)
 {
 	int a, b;
 	char line[BUFFER_SIZE] = {0}, expansion[BUFFER_SIZE] = {'\0'}, *temp;

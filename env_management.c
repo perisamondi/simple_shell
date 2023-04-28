@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 
 /**
  * get_env_var - ..
@@ -7,7 +7,7 @@
  * Return: ..
  */
 
-char *get_env_var(char *env_var, data_of_program *data)
+char *get_env_var(char *env_var, d_o_p *data)
 {
 	int a, key_length = 0;
 
@@ -34,7 +34,7 @@ char *get_env_var(char *env_var, data_of_program *data)
  * Return: 0, 1 or 2
  */
 
-int env_set_key(char *key, char *value, data_of_program *data)
+int env_set_key(char *key, char *value, d_o_p *data)
 {
 	int a, key_length = 0, is_new_key = 1;
 
@@ -70,7 +70,7 @@ int env_set_key(char *key, char *value, data_of_program *data)
  * @data: is the program's data
  * Return: 1 or 0
  */
-int env_delete_key(char *key, data_of_program *data)
+int env_delete_key(char *key, d_f_p *data)
 
 {
 	int a, key_length = 0;
@@ -105,7 +105,7 @@ int env_delete_key(char *key, data_of_program *data)
  * @data: is the program's data
  */
 
-void show_environ(data_of_program *data)
+void show_environ(d_o_p *data)
 {
 	int b;
 

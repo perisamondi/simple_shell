@@ -1,47 +1,125 @@
 #include "shell.h"
 
-
 /**
  * main - is the entry point
- * @ac: arg count
- * @av: arg vector
- * Return: 0 on success, 1 on error
+ * @argc: is the arg count
+ * @argv: arg vec
+ * @env: values for env
+ * Return: 0
  */
 
-int main(int ac, char **av)
-
+int main(int argc, char *argv[], char *env[])
 {
-	info_t info[] = { INFO_INIT };
-	int fd = 2;
+	data_of_program data_struct = {NULL}, *data = &data_struct;
+	char *prompt = "";
 
-	asm ("mov %1, %0\n\t"
-		"add $3, %0"
-		: "=r" (fd)
-		: "r" (fd));
+	process_data(data, argc, argv, env);
 
-	if (ac == 2)
+	signal(SIGINT, handle_ctrl_c);
+
+	if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO) && argc == 1)
+
 	{
-		fd = open(av[1], O_RDONLY);
-		if (fd == -1)
-		{
-			if (errno == EACCES)
-				exit(126);
-			if (errno == ENOENT)
-			{
-				_eputs(av[0]);
-				_eputs(": 0: Can't open ");
-				_eputs(av[1]);
-				_eputchar('\n');
-				_eputchar(BUF_FLUSH);
-				exit(127);
-			}
-			return (EXIT_FAILURE);
-		}
-		info->readfd = fd;
+		errno = 2;
+		prompt = PROMPT_MSG;
 	}
 
-	populate_env_list(info);
-	read_history(info);
-	hsh(info, av);
-	return (EXIT_SUCCESS);
+	errno = 0;
+	prompter(prompt, data);
+	return (0);
+}
+
+/**
+ * handle_ctrl_c - ..
+ * @UNUSED: is the option of the prototype
+ */
+
+void handle_ctrl_c(int opr UNUSED)
+{
+	_print("\n");
+	_print(PROMPT_MSG);
+}
+
+/**
+ * process_data - load data from structure
+ * @data: ..
+ * @argv: args
+ * @env: environ
+ * @argc: args count
+ */
+
+void process_data(d_o_p *data, int argc, char *argv[], char **env)
+{
+	int i = 0;
+
+	data->program_name = argv[0];
+	data->input_line = NULL;
+	data->command_name = NULL;
+	data->exec_counter = 0;
+
+	if (argc == 1)
+		data->file_descriptor = STDIN_FILENO;
+	else
+	{
+		data->file_descriptor = open(argv[1], O_RDONLY);
+		if (data->file_descriptor == -1)
+		{
+			_printe(data->program_name);
+			_printe(": 0: Can't open ");
+			_printe(argv[1]);
+			_printe("\n");
+			exit(127);
+		}
+	}
+	data->tokens = NULL;
+	data->env = malloc(sizeof(char *) * 50);
+	if (env)
+	{
+		for (; env[i]; i++)
+		{
+			data->env[i] = str_dup(env[i]);
+		}
+	}
+	data->env[i] = NULL;
+	env = data->env;
+
+	data->alias_list = malloc(sizeof(char *) * 20);
+	for (i = 0; i < 20; i++)
+	{
+		data->alias_list[i] = NULL;
+	}
+}
+/**
+ * prompter - will show prompt
+ * @prompt: prompt
+ * @data: ..
+ */
+void prompter(char *prompt, d_of_p *data)
+{
+	int error_code = 0, string_len = 0;
+
+	while (++(data->exec_counter))
+	{
+		_print(prompt);
+		error_code = string_len = mygetline(data);
+
+		if (error_code == EOF)
+		{
+			free_data(data);
+			exit(errno);
+		}
+		if (string_len >= 1)
+		{
+			more_alias(data);
+			expand_variables(data);
+			split_str(data);
+			if (data->tokens[0])
+			{
+				error_code = run_prog(data);
+				if (error_code != 0)
+					_print_error(error_code, data);
+			}
+			free_recurrent_data(data);
+		}
+	}
 }

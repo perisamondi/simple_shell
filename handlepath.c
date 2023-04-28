@@ -38,7 +38,7 @@ int locate_program(data_of_program *data)
 		{
 			errno = 0;
 			free(data->tokens[0]);
-			data->tokens[0] = str_dup(directories[i]);
+			data->tokens[0] = str_dup(directories[c]);
 			free_pointers_array(directories);
 			return (ret_code);
 		}
@@ -79,7 +79,7 @@ char **split_path(data_of_program *data)
 	tokens = malloc(sizeof(char *) * counter_directories);
 
 	c = 0;
-	tokens[i] = str_dup(_strtok(PATH, ":"));
+	tokens[c] = str_dup(_strtok(PATH, ":"));
 	while (tokens[c++])
 	{
 		tokens[c] = str_dup(_strtok(NULL, ":"));

@@ -12,7 +12,7 @@ int show_env(d_o_p *data)
 	char *var_copy = NULL;
 
 	if (data->tokens[1] == NULL)
-		show_environ(data);
+		show_env(data);
 	else
 	{
 		for (a = 0; data->tokens[1][a]; a++)

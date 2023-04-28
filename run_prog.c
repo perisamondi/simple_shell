@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 
 /**
  * run_prog - function will run prog
@@ -6,7 +6,7 @@
  * Return: 0 or -1
  */
 
-int run_prog(data_of_program *data)
+int run_prog(d_o_p *data)
 
 {
 	int retval = 0, status;

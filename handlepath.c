@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 
 /**
  * locate_program - ..
@@ -6,7 +6,7 @@
  * Return: 0
  */
 
-int locate_program(data_of_program *data)
+int locate_program(d_o_p *data)
 {
 	int c = 0, ret_code = 0;
 	char **directories;
@@ -55,7 +55,7 @@ int locate_program(data_of_program *data)
  * Return: directories
  */
 
-char **split_path(data_of_program *data)
+char **split_path(d_o_p *data)
 {
 	int c = 0;
 	int counter_directories = 2;

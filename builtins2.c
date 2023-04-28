@@ -1,11 +1,11 @@
-#include "main.h"
+#include "shell.h"
 
 /**
  * myexit - functions to close the prog
  * @data: is the struct for the program's data
  * Return: 0 or error
  */
-int myexit(data_of_program *data)
+int myexit(d_o_p *data)
 {
 	int a;
 
@@ -29,7 +29,7 @@ int myexit(data_of_program *data)
  * @data: is the struct for the program's data
  * Return: 0 or error
  */
-int mycd(data_of_program *data)
+int mycd(d_o_p *data)
 {
 	char *dir_home = get_env_var("HOME", data), *dir_old = NULL;
 	char old_dir[128] = {0};
@@ -37,13 +37,13 @@ int mycd(data_of_program *data)
 
 	if (data->tokens[1])
 	{
-		if (str_compare(data->tokens[1], "-", 0))
+		if (str_comp(data->tokens[1], "-", 0))
 		{
 			dir_old = get_env_var("OLDPWD", data);
 			if (dir_old)
 				error_code = mymkdir(data, dir_old);
-			_print(get_env_var("PWD", data));
-			_print("\n");
+			print(get_env_var("PWD", data));
+			print("\n");
 
 			return (error_code);
 		}
@@ -68,14 +68,14 @@ int mycd(data_of_program *data)
  * @new_dir: implementation
  * Return: 0 or error
  */
-int mymkdir(data_of_program *data, char *new_dir)
+int mymkdir(d_o_p *data, char *new_dir)
 {
 	char old_dir[128] = {0};
 	int err_code = 0;
 
 	getcwd(old_dir, 128);
 
-	if (!str_compare(old_dir, new_dir, 0))
+	if (!str_comp(old_dir, new_dir, 0))
 	{
 		err_code = chdir(new_dir);
 		if (err_code == -1)
@@ -94,7 +94,7 @@ int mymkdir(data_of_program *data, char *new_dir)
  * @data: is the struct for the program's data
  * Return: 0 or error
  */
-int myhelp(data_of_program *data)
+int myhelp(d_o_p *data)
 {
 	int a, length = 0;
 	char *mensajes[6] = {NULL};
@@ -103,7 +103,7 @@ int myhelp(data_of_program *data)
 
 	if (data->tokens[1] == NULL)
 	{
-		_print(mensajes[0] + 6);
+		print(mensajes[0] + 6);
 		return (1);
 	}
 	if (data->tokens[2] != NULL)
@@ -120,10 +120,10 @@ int myhelp(data_of_program *data)
 
 	for (a = 0; mensajes[a]; a++)
 	{
-		length = str_len(data->tokens[1]);
-		if (str_compare(data->tokens[1], mensajes[a], length))
+		length = _strlen(data->tokens[1]);
+		if (str_comp(data->tokens[1], mensajes[a], length))
 		{
-			_print(mensajes[a] + length + 1);
+			print(mensajes[a] + length + 1);
 			return (1);
 		}
 	}
@@ -137,7 +137,7 @@ int myhelp(data_of_program *data)
  * @data: is the struct for the program's data
  * Return: 0
  */
-int another_alias(data_of_program *data)
+int another_alias(d_o_p *data)
 {
 	int a = 0;
 
@@ -146,7 +146,7 @@ int another_alias(data_of_program *data)
 
 	while (data->tokens[++a])
 	{
-		if (count_char(data->tokens[a], "="))
+		if (count(data->tokens[a], "="))
 			put_alias(data->tokens[a], data);
 		else
 			display_alias(data, data->tokens[a]);

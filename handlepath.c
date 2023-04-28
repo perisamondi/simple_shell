@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 
 /**
  * locate_program - ..
@@ -6,7 +6,7 @@
  * Return: 0
  */
 
-int locate_program(data_of_program *data)
+int locate_program(d_o_p *data)
 {
 	int c = 0, ret_code = 0;
 	char **directories;
@@ -39,13 +39,13 @@ int locate_program(data_of_program *data)
 			errno = 0;
 			free(data->tokens[0]);
 			data->tokens[0] = str_dup(directories[c]);
-			free_pointers_array(directories);
+			fpointer(directories);
 			return (ret_code);
 		}
 	}
 	free(data->tokens[0]);
 	data->tokens[0] = NULL;
-	free_pointers_array(directories);
+	fpointer(directories);
 	return (ret_code);
 }
 
@@ -55,7 +55,7 @@ int locate_program(data_of_program *data)
  * Return: directories
  */
 
-char **split_path(data_of_program *data)
+char **split_path(d_o_p *data)
 {
 	int c = 0;
 	int counter_directories = 2;

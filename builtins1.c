@@ -1,11 +1,11 @@
-#include "main.h"
+#include "shell.h"
 
 /**
  * show_env - will display env
  * @data: is the struct for the program's data
  * Return: 0
  */
-int show_env(data_of_program *data)
+int show_env(d_o_p *data)
 {
 	int a;
 	char cpname[50] = {'\0'};
@@ -26,8 +26,8 @@ int show_env(data_of_program *data)
 				show_environ(data);
 				if (get_env_var(cpname, data) == NULL)
 				{
-					_print(data->tokens[1]);
-					_print("\n");
+					print(data->tokens[1]);
+					print("\n");
 				}
 				else
 				{
@@ -51,7 +51,7 @@ int show_env(data_of_program *data)
  * @data: is the program's data
  * Return: 0
  */
-int create_env(data_of_program *data)
+int create_env(d_o_p *data)
 {
 	if (data->tokens[1] == NULL || data->tokens[2] == NULL)
 		return (0);
@@ -72,7 +72,7 @@ int create_env(data_of_program *data)
  * @data: is the program's data'
  * Return: 0
  */
-int destroy_env(data_of_program *data)
+int destroy_env(d_o_p *data)
 {
 	if (data->tokens[1] == NULL)
 		return (0);
@@ -92,7 +92,7 @@ int destroy_env(data_of_program *data)
  * @data: is the struct for the program's data
  * Return: func exceecuted or -1
  */
-int builtins1(data_of_program *data)
+int builtins1(d_o_p *data)
 {
 	int iterator;
 	builtins options[] = {
@@ -108,7 +108,7 @@ int builtins1(data_of_program *data)
 
 	for (iterator = 0; options[iterator].builtin != NULL; iterator++)
 	{
-		if (str_compare(options[iterator].builtin, data->command_name, 0))
+		if (str_comp(options[iterator].builtin, data->command_name, 0))
 		{
 			return (options[iterator].function(data));
 		}

@@ -1,13 +1,13 @@
-#include "main.h"
+#include "shell.h"
 
 /**
  * expand_variables - ..
  * @data: pointer pointing to the program's data
  */
-void expand_variables(data_of_program *data)
+void expand_variables(d_o_p *data)
 {
 	int a, b;
-	char line[BUFFER_SIZE] = {0}, expansion[BUFFER_SIZE] = {'\0'}, *temp;
+	char line[BYTES] = {0}, expansion[BYTES] = {'\0'}, *temp;
 
 	if (data->input_line == NULL)
 		return;
@@ -18,14 +18,14 @@ void expand_variables(data_of_program *data)
 		else if (line[a] == '$' && line[a + 1] == '?')
 		{
 			line[a] = '\0';
-			num_to_str(errno, expansion, 10);
+			numstr(errno, expansion, 10);
 			append_str(line, expansion);
 			append_str(line, data->input_line + a + 2);
 		}
 		else if (line[a] == '$' && line[a + 1] == '$')
 		{
 			line[a] = '\0';
-			num_to_str(getpid(), expansion, 10);
+			numstr(getpid(), expansion, 10);
 			append_str(line, expansion);
 			append_str(line, data->input_line + a + 2);
 		}
@@ -41,7 +41,7 @@ void expand_variables(data_of_program *data)
 			temp ? append_str(line, temp) : 1;
 			append_str(line, expansion);
 		}
-	if (!str_compare(data->input_line, line, 0))
+	if (!str_comp(data->input_line, line, 0))
 	{
 		free(data->input_line);
 		data->input_line = str_dup(line);
@@ -52,10 +52,10 @@ void expand_variables(data_of_program *data)
  * more_alias - ..
  * @data: program's data
  */
-void more_alias(data_of_program *data)
+void more_alias(d_o_p *data)
 {
 	int a, b, was_expanded = 0;
-	char line[BUFFER_SIZE] = {0}, expansion[BUFFER_SIZE] = {'\0'}, *temp;
+	char line[BYTES] = {0}, expansion[BYTES] = {'\0'}, *temp;
 
 	if (data->input_line == NULL)
 		return;
@@ -75,7 +75,7 @@ void more_alias(data_of_program *data)
 			append_str(expansion, line + a + b);
 			line[a] = '\0';
 			append_str(line, temp);
-			line[str_len(line)] = '\0';
+			line[_strlen(line)] = '\0';
 			append_str(line, expansion);
 			was_expanded = 1;
 		}
@@ -98,7 +98,7 @@ int append_str(char *buffer, char *str)
 {
 	int length, a;
 
-	length = str_len(buffer);
+	length = _strlen(buffer);
 	for (a = 0; str[a]; a++)
 	{
 		buffer[length + a] = str[a];

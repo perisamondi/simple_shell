@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 
 /**
  * get_env_var - ..
@@ -7,17 +7,17 @@
  * Return: ..
  */
 
-char *get_env_var(char *env_var, data_of_program *data)
+char *get_env_var(char *env_var, d_o_p *data)
 {
 	int a, key_length = 0;
 
 	if (env_var == NULL || data->env == NULL)
 		return (NULL);
-	key_length = str_len(env_var);
+	key_length = _strlen(env_var);
 
 	for (a = 0; data->env[a]; a++)
 	{
-		if (str_compare(env_var, data->env[a], key_length) &&
+		if (str_comp(env_var, data->env[a], key_length) &&
 		 data->env[a][key_length] == '=')
 		{
 			return (data->env[a] + key_length + 1);
@@ -34,18 +34,18 @@ char *get_env_var(char *env_var, data_of_program *data)
  * Return: 0, 1 or 2
  */
 
-int env_set_key(char *key, char *value, data_of_program *data)
+int env_set_key(char *key, char *value, d_o_p *data)
 {
 	int a, key_length = 0, is_new_key = 1;
 
 	if (key == NULL || value == NULL || data->env == NULL)
 		return (1);
 
-	key_length = str_len(key);
+	key_length = _strlen(key);
 
 	for (a = 0; data->env[a]; a++)
 	{
-		if (str_compare(key, data->env[a], key_length) &&
+		if (str_comp(key, data->env[a], key_length) &&
 		 data->env[a][key_length] == '=')
 		{
 			is_new_key = 0;
@@ -70,7 +70,7 @@ int env_set_key(char *key, char *value, data_of_program *data)
  * @data: is the program's data
  * Return: 1 or 0
  */
-int env_delete_key(char *key, data_of_program *data)
+int env_delete_key(char *key, d_o_p *data)
 
 {
 	int a, key_length = 0;
@@ -78,11 +78,11 @@ int env_delete_key(char *key, data_of_program *data)
 	if (key == NULL || data->env == NULL)
 		return (0);
 
-	key_length = str_len(key);
+	key_length = _strlen(key);
 
 	for (a = 0; data->env[a]; a++)
 	{
-		if (str_compare(key, data->env[a], key_length) &&
+		if (str_comp(key, data->env[a], key_length) &&
 		 data->env[a][key_length] == '=')
 		{
 			free(data->env[a]);
@@ -105,13 +105,13 @@ int env_delete_key(char *key, data_of_program *data)
  * @data: is the program's data
  */
 
-void show_environ(data_of_program *data)
+void show_environ(d_o_p *data)
 {
 	int b;
 
 	for (b = 0; data->env[b]; b++)
 	{
-		_print(data->env[b]);
-		_print("\n");
+		print(data->env[b]);
+		print("\n");
 	}
 }

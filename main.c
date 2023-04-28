@@ -1,47 +1,119 @@
 #include "shell.h"
+/**
+ * main - entry point
+ * @argc: arg count
+ * @argv: arg vec
+ * @env: values for env
+ * Return: 0
+ */
+int main(int argc, char *argv[], char *env[])
+{
+	d_o_p  data_struct = {NULL}, *data = &data_struct;
+	char *prompt = "";
 
+	process_data(data, argc, argv, env);
+
+	signal(SIGINT, handle_ctrl_c);
+
+	if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO) && argc == 1)
+	{
+		errno = 2;
+		prompt = PROMPT_MSG;
+	}
+	errno = 0;
+	prompter(prompt, data);
+	return (0);
+}
 
 /**
- * main - is the entry point
- * @ac: arg count
- * @av: arg vector
- * Return: 0 on success, 1 on error
+ * handle_ctrl_c - ..
+ * @UNUSED: option of the prototype
  */
-
-int main(int ac, char **av)
-
+void handle_ctrl_c(int opr UNUSED)
 {
-	info_t info[] = { INFO_INIT };
-	int fd = 2;
+	print("\n");
+	print(PROMPT_MSG);
+}
 
-	asm ("mov %1, %0\n\t"
-		"add $3, %0"
-		: "=r" (fd)
-		: "r" (fd));
+/**
+ * process_data - load data from structure
+ * @data: ..
+ * @argv: args
+ * @env: environ
+ * @argc: args count
+ */
+void process_data(d_o_p *data, int argc, char *argv[], char **env)
+{
+	int i = 0;
 
-	if (ac == 2)
+	data->program_name = argv[0];
+	data->input_line = NULL;
+	data->command_name = NULL;
+	data->exec_counter = 0;
+
+	if (argc == 1)
+		data->file_descriptor = STDIN_FILENO;
+	else
 	{
-		fd = open(av[1], O_RDONLY);
-		if (fd == -1)
+		data->file_descriptor = open(argv[1], O_RDONLY);
+		if (data->file_descriptor == -1)
 		{
-			if (errno == EACCES)
-				exit(126);
-			if (errno == ENOENT)
-			{
-				_eputs(av[0]);
-				_eputs(": 0: Can't open ");
-				_eputs(av[1]);
-				_eputchar('\n');
-				_eputchar(BUF_FLUSH);
-				exit(127);
-			}
-			return (EXIT_FAILURE);
+			_print(data->program_name);
+			_print(": 0: Can't open ");
+			_print(argv[1]);
+			_print("\n");
+			exit(127);
 		}
-		info->readfd = fd;
 	}
+	data->tokens = NULL;
+	data->env = malloc(sizeof(char *) * 50);
+	if (env)
+	{
+		for (; env[i]; i++)
+		{
+			data->env[i] = str_dup(env[i]);
+		}
+	}
+	data->env[i] = NULL;
+	env = data->env;
 
-	populate_env_list(info);
-	read_history(info);
-	hsh(info, av);
-	return (EXIT_SUCCESS);
+	data->alias_list = malloc(sizeof(char *) * 20);
+	for (i = 0; i < 20; i++)
+	{
+		data->alias_list[i] = NULL;
+	}
+}
+/**
+ * prompter - show prompt
+ * @prompt: prompt
+ * @data: ..
+ */
+void prompter(char *prompt, d_o_p *data)
+{
+	int error_code = 0, string_len = 0;
+
+	while (++(data->exec_counter))
+	{
+		print(prompt);
+		error_code = string_len = _getline(data);
+
+		if (error_code == EOF)
+		{
+			free_data(data);
+			exit(errno);
+		}
+		if (string_len >= 1)
+		{
+			more_alias(data);
+			expand_variables(data);
+			split_str(data);
+			if (data->tokens[0])
+			{
+				error_code = run_prog(data);
+				if (error_code != 0)
+					printerror(error_code, data);
+			}
+			frec_data(data);
+		}
+	}
 }

@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 
 /**
  * display_alias - this function will handle aliases
@@ -7,7 +7,7 @@
  * Return: 0
  */
 
-int display_alias(data_of_program *data, char *alias)
+int display_alias(d_o_p *data, char *alias)
 
 {
 	int a, b, alias_length;
@@ -15,11 +15,11 @@ int display_alias(data_of_program *data, char *alias)
 
 	if (data->alias_list)
 	{
-		alias_length = str_len(alias);
+		alias_length = _strlen(alias);
 
 		for (a = 0; data->alias_list[a]; a++)
 		{
-			if (!alias || (str_compare(data->alias_list[a], alias, alias_length)
+			if (!alias || (str_comp(data->alias_list[a], alias, alias_length)
 				&&	data->alias_list[a][alias_length] == '='))
 			{
 				for (a = 0; data->alias_list[a][b]; b++)
@@ -32,33 +32,32 @@ int display_alias(data_of_program *data, char *alias)
 				append_str(buffer, "'");
 				append_str(buffer, data->alias_list[a] + b + 1);
 				append_str(buffer, "'\n");
-				_print(buffer);
+				print(buffer);
 			}
 		}
 	}
 
 	return (0);
 }
-
 /**
  * retrieve_alias - will handle aliases
  * @data: is the struct for the program's data
  * @name: is the name of the requested alias.
  * Return: 0
  */
-char *retrieve_alias(data_of_program *data, char *name)
+char *retrieve_alias(d_o_p *data, char *name)
 {
 	int a, alias_length;
 
 	if (name == NULL || data->alias_list == NULL)
 		return (NULL);
 
-	alias_length = str_len(name);
+	alias_length = _strlen(name);
 
 	for (a = 0; data->alias_list[a]; a++)
 
 	{
-		if (str_compare(name, data->alias_list[a], alias_length) &&
+		if (str_comp(name, data->alias_list[a], alias_length) &&
 			data->alias_list[a][alias_length] == '=')
 		{
 			return (data->alias_list[a] + alias_length + 1);
@@ -74,7 +73,7 @@ char *retrieve_alias(data_of_program *data, char *name)
  * @data: is the struct for the program's data
  * Return: 0
  */
-int put_alias(char *alias_string, data_of_program *data)
+int put_alias(char *alias_string, d_o_p *data)
 {
 	int a, b;
 	char buffer[250] = {'0'}, *temp = NULL;
@@ -91,7 +90,7 @@ int put_alias(char *alias_string, data_of_program *data)
 		}
 
 	for (b = 0; data->alias_list[b]; b++)
-		if (str_compare(buffer, data->alias_list[b], a) &&
+		if (str_comp(buffer, data->alias_list[b], a) &&
 			data->alias_list[b][a] == '=')
 		{
 			free(data->alias_list[b]);

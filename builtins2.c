@@ -96,7 +96,7 @@ int mymkdir(d_o_p *data, char *new_dir)
  * Return: 0 or error
  */
 
-int myhelp(data_of_program *data)
+int myhelp(d_o_p *data)
 {
 	int a, length = 0;
 	char *mensajes[6] = {NULL};

@@ -31,6 +31,7 @@ typedef struct builtins
 char *builtin;
 int (*function)(d_o_p *data);
 } builtins;
+
 void free_data(d_o_p *data);
 void numstr(long num, char *str, int base);
 int _atoi(char *dwell);

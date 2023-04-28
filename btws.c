@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 
 /**
  * expand_variables - ..
@@ -52,7 +52,7 @@ void expand_variables(data_of_program *data)
  * more_alias - ..
  * @data: program's data
  */
-void more_alias(data_of_program *data)
+void more_alias(d_o_p *data)
 {
 	int a, b, was_expanded = 0;
 	char line[BUFFER_SIZE] = {0}, expansion[BUFFER_SIZE] = {'\0'}, *temp;

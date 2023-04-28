@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> f374f7a0fa53344b2cc450bc3cd450afebcf71f6
 #ifndef SHELL_H
 #define SHELL_H
 #include <stddef.h>
@@ -75,6 +79,7 @@ void str_rev(char *str);
 char *_strtok(char *line, char *delimator);
 void split_str(d_o_p *data);
 int _strlen(char *str);
+<<<<<<< HEAD
 int _logic(char *ac[], int x , char opera[]);
 void process_data(d_o_p *data, int argc, char *argv[], char **env);
 void handle_ctrl_c(int opr UNUSED);
@@ -83,3 +88,8 @@ void prompter(char *prompt, d_o_p *data);
 int run_prog(d_o_p *data);
 #endif
 
+=======
+int _logic(char *ac[], int x, char opera[]);
+
+#endif
+>>>>>>> f374f7a0fa53344b2cc450bc3cd450afebcf71f6

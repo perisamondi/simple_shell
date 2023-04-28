@@ -12,7 +12,7 @@ int show_env(d_o_p *data)
 	char *var_copy = NULL;
 
 	if (data->tokens[1] == NULL)
-		show_environ(data);
+		show_env(data);
 	else
 	{
 		for (a = 0; data->tokens[1][a]; a++)
@@ -51,6 +51,10 @@ int show_env(d_o_p *data)
  * @data: is the program's data
  * Return: 0
  */
+<<<<<<< HEAD
+=======
+
+>>>>>>> f374f7a0fa53344b2cc450bc3cd450afebcf71f6
 int create_env(d_o_p *data)
 {
 	if (data->tokens[1] == NULL || data->tokens[2] == NULL)
@@ -72,6 +76,10 @@ int create_env(d_o_p *data)
  * @data: is the program's data'
  * Return: 0
  */
+<<<<<<< HEAD
+=======
+
+>>>>>>> f374f7a0fa53344b2cc450bc3cd450afebcf71f6
 int destroy_env(d_o_p *data)
 {
 	if (data->tokens[1] == NULL)

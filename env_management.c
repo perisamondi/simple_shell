@@ -17,7 +17,7 @@ char *get_env_var(char *env_var, data_of_program *data)
 
 	for (a = 0; data->env[a]; a++)
 	{
-		if (str_compare(env_var, data->env[i], key_length) &&
+		if (str_compare(env_var, data->env[a], key_length) &&
 		 data->env[a][key_length] == '=')
 		{
 			return (data->env[a] + key_length + 1);

@@ -19,7 +19,7 @@ int display_alias(data_of_program *data, char *alias)
 
 		for (a = 0; data->alias_list[a]; a++)
 		{
-			if (!alias || (str_compare(data->alias_list[i], alias, alias_length)
+			if (!alias || (str_compare(data->alias_list[a], alias, alias_length)
 				&&	data->alias_list[a][alias_length] == '='))
 			{
 				for (a = 0; data->alias_list[a][b]; b++)

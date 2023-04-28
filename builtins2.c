@@ -1,11 +1,12 @@
-#include "main.h"
+#include "shell.h"
 
 /**
  * myexit - functions to close the prog
  * @data: is the struct for the program's data
  * Return: 0 or error
  */
-int myexit(data_of_program *data)
+
+int myexit(d_o_p *data)
 {
 	int a;
 
@@ -29,7 +30,7 @@ int myexit(data_of_program *data)
  * @data: is the struct for the program's data
  * Return: 0 or error
  */
-int mycd(data_of_program *data)
+int mycd(d_o_p *data)
 {
 	char *dir_home = get_env_var("HOME", data), *dir_old = NULL;
 	char old_dir[128] = {0};
@@ -68,7 +69,7 @@ int mycd(data_of_program *data)
  * @new_dir: implementation
  * Return: 0 or error
  */
-int mymkdir(data_of_program *data, char *new_dir)
+int mymkdir(d_o_p *data, char *new_dir)
 {
 	char old_dir[128] = {0};
 	int err_code = 0;
@@ -94,6 +95,7 @@ int mymkdir(data_of_program *data, char *new_dir)
  * @data: is the struct for the program's data
  * Return: 0 or error
  */
+
 int myhelp(data_of_program *data)
 {
 	int a, length = 0;
@@ -137,7 +139,7 @@ int myhelp(data_of_program *data)
  * @data: is the struct for the program's data
  * Return: 0
  */
-int another_alias(data_of_program *data)
+int another_alias(d_o_p *data)
 {
 	int a = 0;
 

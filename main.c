@@ -10,7 +10,7 @@
 
 int main(int argc, char *argv[], char *env[])
 {
-	data_of_program data_struct = {NULL}, *data = &data_struct;
+	d_o_p data_struct = {NULL}, *data = &data_struct;
 	char *prompt = "";
 
 	process_data(data, argc, argv, env);
@@ -64,10 +64,10 @@ void process_data(d_o_p *data, int argc, char *argv[], char **env)
 		data->file_descriptor = open(argv[1], O_RDONLY);
 		if (data->file_descriptor == -1)
 		{
-			_printe(data->program_name);
-			_printe(": 0: Can't open ");
-			_printe(argv[1]);
-			_printe("\n");
+			_print(data->program_name);
+			_print(": 0: Can't open ");
+			_print(argv[1]);
+			_print("\n");
 			exit(127);
 		}
 	}
@@ -117,9 +117,9 @@ void prompter(char *prompt, d_of_p *data)
 			{
 				error_code = run_prog(data);
 				if (error_code != 0)
-					_print_error(error_code, data);
+					printerror(error_code, data);
 			}
-			free_recurrent_data(data);
+				data - frec_data(data);
 		}
 	}
 }

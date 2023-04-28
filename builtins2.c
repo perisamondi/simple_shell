@@ -144,7 +144,7 @@ int another_alias(data_of_program *data)
 	if (data->tokens[1] == NULL)
 		return (display_alias(data, NULL));
 
-	while (data->tokens[++i])
+	while (data->tokens[++a])
 	{
 		if (count_char(data->tokens[a], "="))
 			put_alias(data->tokens[a], data);

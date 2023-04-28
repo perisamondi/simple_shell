@@ -1,11 +1,11 @@
-#include "main.h"
+#include "shell.h"
 
 /**
  * free_recurrent_data - is the function to keep the buffers clean
  * @data: ..
  */
 
-void free_recurrent_data(data_of_program *data)
+void free_recurrent_data(d_o_p *data)
 {
 	if (data->tokens)
 		free_pointers_array(data->tokens);
@@ -24,7 +24,7 @@ void free_recurrent_data(data_of_program *data)
  * @data: ..
  */
 
-void free_data(data_of_program *data)
+void free_data(d_o_p *data)
 {
 	if (data->file_descriptor != 0)
 	{

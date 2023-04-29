@@ -1,14 +1,13 @@
-#include "shell.h"
+#include "main.h"
 
 /**
  * locate_program - ..
  * @data: the program's data
  * Return: 0
  */
-
-int locate_program(d_o_p *data)
+int locate_program(data_of_program *data)
 {
-	int c = 0, ret_code = 0;
+	int i = 0, ret_code = 0;
 	char **directories;
 
 	if (!data->command_name)
@@ -29,35 +28,33 @@ int locate_program(d_o_p *data)
 		errno = 127;
 		return (127);
 	}
-
-	for (c = 0; directories[c]; c++)
+	for (i = 0; directories[i]; i++)
 	{
-		directories[c] = str_join(directories[c], data->tokens[0]);
-		ret_code = ascertain_file(directories[c]);
+		directories[i] = str_join(directories[i], data->tokens[0]);
+		ret_code = ascertain_file(directories[i]);
 		if (ret_code == 0 || ret_code == 126)
 		{
 			errno = 0;
 			free(data->tokens[0]);
-			data->tokens[0] = str_dup(directories[c]);
-			fpointer(directories);
+			data->tokens[0] = str_dup(directories[i]);
+			free_pointers_array(directories);
 			return (ret_code);
 		}
 	}
 	free(data->tokens[0]);
 	data->tokens[0] = NULL;
-	fpointer(directories);
+	free_pointers_array(directories);
 	return (ret_code);
 }
 
 /**
- * split_path - will split the path in directories
- * @data: is the program's data
+ * split_path - split the path in directories
+ * @data: program's data
  * Return: directories
  */
-
-char **split_path(d_o_p *data)
+char **split_path(data_of_program *data)
 {
-	int c = 0;
+	int i = 0;
 	int counter_directories = 2;
 	char **tokens = NULL;
 	char *PATH;
@@ -70,19 +67,19 @@ char **split_path(d_o_p *data)
 
 	PATH = str_dup(PATH);
 
-	for (c = 0; PATH[c]; c++)
+	for (i = 0; PATH[i]; i++)
 	{
-		if (PATH[c] == ':')
+		if (PATH[i] == ':')
 			counter_directories++;
 	}
 
 	tokens = malloc(sizeof(char *) * counter_directories);
 
-	c = 0;
-	tokens[c] = str_dup(_strtok(PATH, ":"));
-	while (tokens[c++])
+	i = 0;
+	tokens[i] = str_dup(_strtok(PATH, ":"));
+	while (tokens[i++])
 	{
-		tokens[c] = str_dup(_strtok(NULL, ":"));
+		tokens[i] = str_dup(_strtok(NULL, ":"));
 	}
 
 	free(PATH);
@@ -92,11 +89,10 @@ char **split_path(d_o_p *data)
 }
 
 /**
- * ascertain_file - will check the file
- * @file_path: is the path of the file
+ * ascertain_file - check file
+ * @file_path: file path
  * Return: 0
  */
-
 int ascertain_file(char *file_path)
 {
 	struct stat sb;

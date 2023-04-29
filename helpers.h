@@ -8,7 +8,7 @@
 #define UNUSED __attribute__((unused))
 
 /* buffer size for each read call in _getline */
-#define BYTES 1024
+#define BUFFER_SIZE 1024
 
 /************* FORMATTED STRING FOR HELP BUILT IN **************/
 

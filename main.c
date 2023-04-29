@@ -1,16 +1,15 @@
-#include "shell.h"
+#include "main.h"
 
 /**
- * main - is the entry point
- * @argc: is the arg count
+ * main - entry point
+ * @argc: arg count
  * @argv: arg vec
  * @env: values for env
  * Return: 0
  */
-
 int main(int argc, char *argv[], char *env[])
 {
-	d_o_p data_struct = {NULL}, *data = &data_struct;
+	data_of_program data_struct = {NULL}, *data = &data_struct;
 	char *prompt = "";
 
 	process_data(data, argc, argv, env);
@@ -18,12 +17,10 @@ int main(int argc, char *argv[], char *env[])
 	signal(SIGINT, handle_ctrl_c);
 
 	if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO) && argc == 1)
-
 	{
 		errno = 2;
 		prompt = PROMPT_MSG;
 	}
-
 	errno = 0;
 	prompter(prompt, data);
 	return (0);
@@ -31,12 +28,12 @@ int main(int argc, char *argv[], char *env[])
 
 /**
  * handle_ctrl_c - ..
- * @UNUSED: is the option of the prototype
+ * @UNUSED: option of the prototype
  */
 void handle_ctrl_c(int opr UNUSED)
 {
-	print("\n");
-	print(PROMPT_MSG);
+	_print("\n");
+	_print(PROMPT_MSG);
 }
 
 /**
@@ -46,7 +43,7 @@ void handle_ctrl_c(int opr UNUSED)
  * @env: environ
  * @argc: args count
  */
-void process_data(d_o_p *data, int argc, char *argv[], char **env)
+void process_data(data_of_program *data, int argc, char *argv[], char **env)
 {
 	int i = 0;
 
@@ -62,10 +59,10 @@ void process_data(d_o_p *data, int argc, char *argv[], char **env)
 		data->file_descriptor = open(argv[1], O_RDONLY);
 		if (data->file_descriptor == -1)
 		{
-			_print(data->program_name);
-			_print(": 0: Can't open ");
-			_print(argv[1]);
-			_print("\n");
+			_printe(data->program_name);
+			_printe(": 0: Can't open ");
+			_printe(argv[1]);
+			_printe("\n");
 			exit(127);
 		}
 	}
@@ -75,7 +72,6 @@ void process_data(d_o_p *data, int argc, char *argv[], char **env)
 	{
 		for (; env[i]; i++)
 		{
-
 			data->env[i] = str_dup(env[i]);
 		}
 	}
@@ -93,17 +89,14 @@ void process_data(d_o_p *data, int argc, char *argv[], char **env)
  * @prompt: prompt
  * @data: ..
  */
-void prompter(char *prompt, d_o_p *data)
+void prompter(char *prompt, data_of_program *data)
 {
 	int error_code = 0, string_len = 0;
 
 	while (++(data->exec_counter))
 	{
-
-		print(prompt);
-		error_code = string_len = _getline(data);
 		_print(prompt);
-		error_code = string_len = _getline(data);
+		error_code = string_len = mygetline(data);
 
 		if (error_code == EOF)
 		{
@@ -119,10 +112,10 @@ void prompter(char *prompt, d_o_p *data)
 			{
 				error_code = run_prog(data);
 				if (error_code != 0)
-					printerror(error_code, data);
+					_print_error(error_code, data);
 			}
-			frec_data(data);
-
+			free_recurrent_data(data);
 		}
 	}
 }
+

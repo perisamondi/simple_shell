@@ -1,66 +1,63 @@
-#include "shell.h"
+#include "main.h"
 
 /**
- * display_alias - this function will handle aliases
- * @data: is the program's data
- * @alias: is the name of the alias to be printed
+ * display_alias - function to handle aliases
+ * @data: program's data
+ * @alias: name of the alias to be printed
  * Return: 0
  */
-
-int display_alias(d_o_p *data, char *alias)
-
+int display_alias(data_of_program *data, char *alias)
 {
-	int a, b, alias_length;
+	int i, j, alias_length;
 	char buffer[250] = {'\0'};
 
 	if (data->alias_list)
 	{
-		alias_length = _strlen(alias);
-
-		for (a = 0; data->alias_list[a]; a++)
+		alias_length = str_len(alias);
+		for (i = 0; data->alias_list[i]; i++)
 		{
-			if (!alias || (str_comp(data->alias_list[a], alias, alias_length)
-				&&	data->alias_list[a][alias_length] == '='))
+			if (!alias || (str_compare(data->alias_list[i], alias, alias_length)
+				&&	data->alias_list[i][alias_length] == '='))
 			{
-				for (a = 0; data->alias_list[a][b]; b++)
+				for (j = 0; data->alias_list[i][j]; j++)
 				{
-					buffer[b] = data->alias_list[a][b];
-					if (data->alias_list[a][b] == '=')
+					buffer[j] = data->alias_list[i][j];
+					if (data->alias_list[i][j] == '=')
 						break;
 				}
-				buffer[b + 1] = '\0';
+				buffer[j + 1] = '\0';
 				append_str(buffer, "'");
-				append_str(buffer, data->alias_list[a] + b + 1);
+				append_str(buffer, data->alias_list[i] + j + 1);
 				append_str(buffer, "'\n");
-				print(buffer);
+				_print(buffer);
 			}
 		}
 	}
 
 	return (0);
 }
+
 /**
- * retrieve_alias - will handle aliases
- * @data: is the struct for the program's data
- * @name: is the name of the requested alias.
+ * retrieve_alias - handle aliases
+ * @data: struct for the program's data
+ * @name: name of the requested alias.
  * Return: 0
  */
-char *retrieve_alias(d_o_p *data, char *name)
+char *retrieve_alias(data_of_program *data, char *name)
 {
-	int a, alias_length;
+	int i, alias_length;
 
 	if (name == NULL || data->alias_list == NULL)
 		return (NULL);
 
-	alias_length = _strlen(name);
+	alias_length = str_len(name);
 
-	for (a = 0; data->alias_list[a]; a++)
-
+	for (i = 0; data->alias_list[i]; i++)
 	{
-		if (str_comp(name, data->alias_list[a], alias_length) &&
-			data->alias_list[a][alias_length] == '=')
+		if (str_compare(name, data->alias_list[i], alias_length) &&
+			data->alias_list[i][alias_length] == '=')
 		{
-			return (data->alias_list[a] + alias_length + 1);
+			return (data->alias_list[i] + alias_length + 1);
 		}
 	}
 	return (NULL);
@@ -68,32 +65,32 @@ char *retrieve_alias(d_o_p *data, char *name)
 }
 
 /**
- * put_alias - implements alias
- * @alias_string: is the value
- * @data: is the struct for the program's data
+ * put_alias - implement alias
+ * @alias_string: value
+ * @data: struct for the program's data
  * Return: 0
  */
-int put_alias(char *alias_string, d_o_p *data)
+int put_alias(char *alias_string, data_of_program *data)
 {
-	int a, b;
+	int i, j;
 	char buffer[250] = {'0'}, *temp = NULL;
 
 	if (alias_string == NULL ||  data->alias_list == NULL)
 		return (1);
-	for (a = 0; alias_string[a]; a++)
-		if (alias_string[a] != '=')
-			buffer[a] = alias_string[a];
+	for (i = 0; alias_string[i]; i++)
+		if (alias_string[i] != '=')
+			buffer[i] = alias_string[i];
 		else
 		{
-			temp = retrieve_alias(data, alias_string + a + 1);
+			temp = retrieve_alias(data, alias_string + i + 1);
 			break;
 		}
 
-	for (b = 0; data->alias_list[b]; b++)
-		if (str_comp(buffer, data->alias_list[b], a) &&
-			data->alias_list[b][a] == '=')
+	for (j = 0; data->alias_list[j]; j++)
+		if (str_compare(buffer, data->alias_list[j], i) &&
+			data->alias_list[j][i] == '=')
 		{
-			free(data->alias_list[b]);
+			free(data->alias_list[j]);
 			break;
 		}
 
@@ -101,9 +98,9 @@ int put_alias(char *alias_string, d_o_p *data)
 	{
 		append_str(buffer, "=");
 		append_str(buffer, temp);
-		data->alias_list[b] = str_dup(buffer);
+		data->alias_list[j] = str_dup(buffer);
 	}
 	else
-		data->alias_list[b] = str_dup(alias_string);
+		data->alias_list[j] = str_dup(alias_string);
 	return (0);
 }

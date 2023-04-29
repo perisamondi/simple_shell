@@ -70,12 +70,8 @@ int env_set_key(char *key, char *value, d_o_p *data)
  * @data: is the program's data
  * Return: 1 or 0
  */
-<<<<<<< HEAD
-int env_delete_key(char *key, d_o_p *data)
-=======
-int env_delete_key(char *key, d_f_p *data)
->>>>>>> f374f7a0fa53344b2cc450bc3cd450afebcf71f6
 
+int env_delete_key(char *key, d_o_p *data)
 {
 	int a, key_length = 0;
 

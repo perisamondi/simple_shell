@@ -5,10 +5,6 @@
  * @data: is the struct for the program's data
  * Return: 0 or error
  */
-<<<<<<< HEAD
-=======
-
->>>>>>> f374f7a0fa53344b2cc450bc3cd450afebcf71f6
 int myexit(d_o_p *data)
 {
 	int a;
@@ -98,10 +94,6 @@ int mymkdir(d_o_p *data, char *new_dir)
  * @data: is the struct for the program's data
  * Return: 0 or error
  */
-<<<<<<< HEAD
-=======
-
->>>>>>> f374f7a0fa53344b2cc450bc3cd450afebcf71f6
 int myhelp(d_o_p *data)
 {
 	int a, length = 0;

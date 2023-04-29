@@ -32,11 +32,6 @@ void numstr(long num, char *str, int base)
 	str[index] = '\0';
 	str_rev(str);
 }
-/**
- * _atoi - change string  to number
- * @str: test par
- * Return: num
- */
 int _atoi(char *dwell)
 {
 	int s = 1;
@@ -53,10 +48,10 @@ int _atoi(char *dwell)
 
 	while ('0' <= *dwell && *dwell <= '9' && *dwell != '\0')
 	{
-
 		number = (number * 10) + (*dwell - '0');
 		dwell++;
 	}
+
 	return (number * s);
 }
 /**
